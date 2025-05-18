@@ -106,12 +106,10 @@ proxy.set.items.push(4); // ❌ No re-render will occur
 
 This does **not** trigger state updates because `.push()` mutates the array in-place and doesn't trigger the Proxy's `set` trap.
 
-✅ To update arrays correctly, assign a new array or use indexed assignment:
+✅ To update arrays correctly, assign a new array:
 
 ```ts
 proxy.set.items = [...proxy.set.items, 4]; // ✅ triggers re-render
-
-proxy.set.items[2] = 100; // ✅ triggers re-render
 ```
 
 ---
