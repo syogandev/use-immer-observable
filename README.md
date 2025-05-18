@@ -52,7 +52,33 @@ const MyComponent = () => {
 };
 ```
 
----
+## 🔄 Comparison with use-immer
+
+Both use-immer and use-immer-observable enable immutable updates using Immer, but the API style is different:
+
+### use-immer
+
+You update state using a function passed to update():
+
+```
+onClick={() => {
+  update(draft => {
+    draft.user.isLoggedIn = true;
+  });
+}}
+```
+
+### use-immer-observable
+
+You can directly mutate the proxy like regular JavaScript objects:
+
+```
+onClick={() => {
+  proxy.set.user.isLoggedIn = true;
+}}
+```
+
+This style can feel more intuitive and requires less boilerplate, especially for simple updates.
 
 ## ⚠️ Important Caveats
 
