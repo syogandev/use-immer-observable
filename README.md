@@ -102,6 +102,7 @@ Only objects supported by `structuredClone` are safe to use. Avoid:
 ## Peer Dependencies
 
 - React 18 or 19 is required
+- A modern browser with `structuredClone` support
 
 ---
 
