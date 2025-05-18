@@ -82,6 +82,8 @@ onClick={() => {
 
 This style can feel more intuitive and requires less boilerplate, especially for simple updates.
 
+---
+
 ## ⚠️ Important Caveats
 
 ### Full State Replacement
