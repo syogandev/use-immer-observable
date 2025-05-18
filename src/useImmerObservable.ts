@@ -76,7 +76,7 @@ const useImmerObservable = <T>(obj: T): [T, { set: T }] => {
 
   // Proxy object with mutation callback
   const objRef = useRef<{ set: T }>(
-    createObservableObject({ set: obj }, (path, _value) => {
+    createObservableObject({ set: structuredClone(obj) }, (path, _value) => {
       const value = structuredClone(_value);
       const realPath = path[0] === "set" ? path.slice(1) : path;
 
