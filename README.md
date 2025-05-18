@@ -52,6 +52,8 @@ const MyComponent = () => {
 };
 ```
 
+---
+
 ## 🔄 Comparison with use-immer
 
 Both use-immer and use-immer-observable enable immutable updates using Immer, but the API style is different:
