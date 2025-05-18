@@ -107,10 +107,10 @@ Only objects supported by `structuredClone` are safe to use. Avoid:
 
 ## License
 
-MIT License © 2025 syroppri
+MIT License © 2025 syogandev
 
 ---
 
 ## Repository
 
-https://github.com/syroppri/use-immer-observable
+https://github.com/syogandev/use-immer-observable
