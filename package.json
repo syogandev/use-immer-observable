@@ -44,5 +44,8 @@
     "immutable"
   ],
   "homepage": "https://github.com/syogandev/use-immer-observable#readme",
-  "author": "syogandev (https://github.com/syogandev)"
+  "author": "syogandev (https://github.com/syogandev)",
+  "volta": {
+    "node": "23.9.0"
+  }
 }

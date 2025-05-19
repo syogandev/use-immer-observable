@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { produce } from "immer";
 
 // Type for callback used when the observable object is mutated
@@ -63,8 +63,8 @@ const useImmerObservable = <T>(obj: T): [T, { set: T }] => {
         return value;
       },
       set(target, key, value) {
-        console.log(`target, key, value ${target} ${String(key)} ${value}`);
-        target[key] = value; // Directly mutate (allowed inside proxy)
+        // console.log(`target, key, value ${target} ${String(key)} ${value}`);
+        target[key] = structuredClone(value); // Directly mutate (allowed inside proxy)
         callback([...path, key.toString()], value); // Trigger state update
 
         return true;
@@ -76,13 +76,12 @@ const useImmerObservable = <T>(obj: T): [T, { set: T }] => {
 
   // Proxy object with mutation callback
   const objRef = useRef<{ set: T }>(
-    createObservableObject({ set: structuredClone(obj) }, (path, _value) => {
-      const value = structuredClone(_value);
+    createObservableObject({ set: structuredClone(obj) }, (path, value) => {
       const realPath = path[0] === "set" ? path.slice(1) : path;
 
       if (realPath.length === 0) {
         // Replacing root object → avoid using produce
-        setstate(structuredClone(value));
+        setstate(value);
         return;
       }
 
