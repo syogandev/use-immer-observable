@@ -4,6 +4,11 @@ import { produce } from "immer";
 // Type for callback used when the observable object is mutated
 type ObservableCallback = (path: string[], value: any) => void;
 
+// Recursive Observable type to preserve nested proxy typings
+type Observable<T> = T extends object ? { [K in keyof T]: Observable<T[K]> } : T;
+// Proxy wrapper returned by the hook
+type SetterProxy<T> = { set: Observable<T> };
+
 /**
  * useImmerObservable
  *
@@ -12,7 +17,7 @@ type ObservableCallback = (path: string[], value: any) => void;
  *
  * @template T - Type of the initial state object
  * @param {T} obj - The initial state object
- * @returns {[T, { set: T }]} A tuple with the current state and a proxy-wrapped mutator
+ * @returns {[T, SetterProxy<T>]} A tuple with the current state and a proxy-wrapped mutator
  *
  * @example
  * const initial = { user: { name: "Alice" } };
@@ -31,9 +36,9 @@ type ObservableCallback = (path: string[], value: any) => void;
  * because Proxy cannot detect internal array method calls.
  * Instead, reassign the array: `proxy.set.items = [...proxy.set.items, 1]`
  */
-const useImmerObservable = <T>(obj: T): [T, { set: T }] => {
+const useImmerObservable = <T extends object>(obj: T): [T, SetterProxy<T>] => {
   // State is managed immutably using Immer
-  const [state, setstate] = useState(structuredClone(obj));
+  const [state, setState] = useState(structuredClone(obj));
   const proxyCacheRef = useRef(new WeakMap<object, any>());
 
   /**
@@ -63,9 +68,9 @@ const useImmerObservable = <T>(obj: T): [T, { set: T }] => {
         return value;
       },
       set(target, key, value) {
-        // console.log(`target, key, value ${target} ${String(key)} ${value}`);
-        target[key] = structuredClone(value); // Directly mutate (allowed inside proxy)
-        callback([...path, key.toString()], value); // Trigger state update
+        // 直接代入。Immer 側で不変性が担保されるため deep clone は不要
+        target[key] = value;
+        callback([...path, key.toString()], value);
 
         return true;
       },
@@ -75,17 +80,19 @@ const useImmerObservable = <T>(obj: T): [T, { set: T }] => {
   };
 
   // Proxy object with mutation callback
-  const objRef = useRef<{ set: T }>(
+  const objRef = useRef<SetterProxy<T>>(
     createObservableObject({ set: structuredClone(obj) }, (path, value) => {
       const realPath = path[0] === "set" ? path.slice(1) : path;
 
       if (realPath.length === 0) {
         // Replacing root object → avoid using produce
-        setstate(value);
+        // ルート置換時は Proxy キャッシュをリセット
+        proxyCacheRef.current = new WeakMap();
+        setState(value);
         return;
       }
 
-      setstate((prev) =>
+      setState((prev) =>
         produce(prev, (draft) => {
           let target = draft as any;
           // Traverse to the target key in the object

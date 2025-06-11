@@ -1,6 +1,6 @@
 {
   "name": "use-immer-observable",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React hook for immutable state updates with Immer and Proxy observable",
   "type": "module",
   "main": "dist/useImmerObservable.js",
