@@ -41,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/syogandev/use-immer-observable.git"
+    "url": "git+https://github.com/syogandev/use-immer-observable.git"
   },
   "keywords": [
     "react",
