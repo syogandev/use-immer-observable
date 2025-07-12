@@ -21,6 +21,7 @@ describe("useImmerObservable", () => {
       result.current[1].set = { count: 42 };
     });
 
+    console.log(`---------- ${JSON.stringify(result.current[0], null, 2)}`);
     expect(result.current[0].count).toBe(42);
   });
 
