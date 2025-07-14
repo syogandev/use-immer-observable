@@ -17,7 +17,7 @@ describe("batch mode switching", () => {
 
     // バッチモードをオフにすると保留中の更新が適用される
     act(() => {
-      result.current[1].setBatchUpdate(false);
+      result.current[1].enableBatch(false);
     });
 
     // 最後の状態が反映されている
@@ -36,7 +36,7 @@ describe("batch mode switching", () => {
 
     // バッチモードをオンに
     act(() => {
-      result.current[1].setBatchUpdate(true);
+      result.current[1].enableBatch(true);
     });
 
     // バッチモードで更新
@@ -69,7 +69,7 @@ describe("batch mode switching", () => {
 
     // バッチモードをオフにすると保留中の更新が適用される
     act(() => {
-      result.current[1].setBatchUpdate(false);
+      result.current[1].enableBatch(false);
     });
 
     // すべての更新が反映されている
@@ -102,7 +102,7 @@ describe("batch mode switching", () => {
 
     // バッチモードをオフにすると保留中の更新が適用される
     act(() => {
-      result.current[1].setBatchUpdate(false);
+      result.current[1].enableBatch(false);
     });
 
     // ルート置換が適用され、その後の更新は無視される
