@@ -6,6 +6,11 @@ React hook for immutable state updates with Immer and Proxy observable.
 
 ## Features
 
+- Uses Immer for immutable state updates
+- Tracks deep nested changes: all property updates are detected by a Proxy and then passed to Immer for immutable state updates
+- Simple API to work with reactive immutable state
+- Batch updates (`proxy.batch`) allow you to group multiple changes into a single render.
+
 ---
 
 ## 🛠️ How It Works
