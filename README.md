@@ -6,9 +6,24 @@ React hook for immutable state updates with Immer and Proxy observable.
 
 ## Features
 
-- Uses Immer for immutable state updates
-- Tracks deep nested changes via Proxy observable
-- Simple API to work with reactive immutable state
+---
+
+## 🛠️ How It Works
+
+`useImmerObservable` combines **Immer** and **JavaScript Proxy** to provide intuitive, immutable state management with a mutable-like API.
+
+- The state object is wrapped with a Proxy, so you can update properties directly (e.g., `proxy.set.xxx = ...`).
+- All changes are intercepted by the Proxy and applied immutably using Immer under the hood.
+- React's `useState` is used to trigger re-renders when the state changes.
+
+### Architecture Diagram
+
+```
+[Your Component Code]
+       |
+       v
+   [Proxy Wrapper] --(change detection)--> [Immer produce] --(new state)--> [React useState] --(re-render)
+```
 
 ---
 
