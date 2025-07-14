@@ -99,6 +99,8 @@ const MyComponent = () => {
 
 Both use-immer and use-immer-observable enable immutable updates using Immer, but they differ slightly in how you write updates.
 
+> **Note:** use-immer-observable allows you to write more intuitive, mutable-style code, but uses JavaScript Proxy internally, which introduces some runtime overhead compared to use-immer.
+
 ### use-immer
 
 You update state using a function passed to update():
