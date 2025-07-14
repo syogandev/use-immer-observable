@@ -108,10 +108,13 @@ const MyComponent = () => {
     proxy.set.user.age = 50;
   }); // All changes applied in a single render
   ```
-  > Note: When using `proxy.batch`, batch mode is automatically enabled only during the callback.
-  > After the callback finishes (even if an error occurs), batch mode is always restored to its previous state.
-  > **If an exception is thrown inside the batch callback, all changes made within that batch will be rolled back and not applied to the state.**
-  > This means that even if you update multiple properties inside a batch, if an error occurs, none of those changes will be reflected in the state (atomicity is guaranteed).
+  **Note:** When using `proxy.batch`:
+  > - Batch mode is automatically enabled only during the callback
+  > - After the callback finishes (even if an error occurs), batch mode is always restored to its previous state
+  > - **Error Handling:** The callback should be designed to not throw exceptions. If an uncaught exception occurs:
+  >   - The React state will remain unchanged (changes are rolled back)
+  >   - The `proxy` object may be left in a partially modified state
+  >   - Always validate data before making updates to prevent exceptions
 
 ---
 
